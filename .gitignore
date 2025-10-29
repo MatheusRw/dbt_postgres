@@ -1,0 +1,20 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+# dbt
+target/
+dbt_packages/
+logs/
+.env
+profiles.yml
+~/.dbt/
+.DS_Store
+
+# IDEs e sistema
+.idea/
+.vscode/
