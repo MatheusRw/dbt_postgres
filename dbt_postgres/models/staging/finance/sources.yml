@@ -1,0 +1,44 @@
+version: 2
+
+sources:
+  - name: finance
+    description: "Dados brutos"
+    schema: data_set_financial
+    loader: postgres
+    loaded_at_field: data_carga
+    meta:
+      owner: "Empresa byty"
+    freshness:
+      warn_after: {count: 1, period: day}
+      error_after: {count: 2, period: day}
+
+    tables:
+      - name: dados_financeiros
+        description: "Tabela com os lançamentos financeiros da empresa"
+        columns:
+          - name: nome
+            description: "Nome do lançamento"
+          - name: data
+            description: "Data do lançamento"
+          - name: valor
+            description: "Valor do lançamento"
+          - name: status
+            description: "Status do lançamento"
+          - name: banco
+            description: "Banco do lançamento"
+          - name: destino
+            description: "Destino do lançamento"
+          - name: responsavel
+            description: "Responsável pelo lançamento"
+          - name: tipo
+            description: "Tipo do lançamento"
+          - name: valor_real
+            description: "Valor real do lançamento"
+          - name: categoria
+            description: "Categoria do lançamento"
+          - name: mes
+            description: "Mês do lançamento"
+          - name: id
+            description: "ID do lançamento"
+            tests:
+              - not_null
