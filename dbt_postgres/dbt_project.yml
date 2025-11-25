@@ -24,7 +24,8 @@ models:
   dbt_postgres_projeto:
     staging:
       schema: staging
-      materialized: table
+      #materialized: table
+      materialized: incremental
       tags: ['staging']
 
     intermediate:
