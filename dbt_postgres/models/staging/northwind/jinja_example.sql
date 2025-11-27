@@ -1,41 +1,41 @@
--- query comum
+{% set first_day_current_month = run_started_at.strftime("%Y-%m-01") %}
 
+-- Exemplo com Jinja simples
 SELECT *
 FROM vendas
-WHERE data_venda >= '2023-09-01' --Primeiro dia do mês atual
+WHERE data_venda >= '{{ first_day_current_month }}'  -- Primeiro dia do mês atual gerado via Jinja
 
--- query com jinja
+UNION ALL
 
+-- Exemplo usando variável do dbt
 SELECT *
 FROM vendas
-WHERE data_venda >= '{{ var("data_venda") }}' -- Primeiro dia do mês atual com variável
+WHERE data_venda >= '{{ var("data_venda", first_day_current_month) }}'
 
--- query com jinja 2 
+UNION ALL
 
-SELECT *
-FROM vendas
-WHERE data_venda >= '{{ (execute_at | as_timestamp).strftime("%Y-%m-01") }}' -- Primeiro dia do mês atual com variável
-
--- loop com jinja
-
-Select 
+-- Loop com Jinja
+SELECT 
     cliente_id,
-    {%for mes in range(1,13) %}
-        SUM(CASE WHEN EXTRACT(MONTH FROM data_venda) = {{mes}} THEN valor_venda ELSE 0 END) AS vendas_mes_{{mes}}{%if not loop.last %},{% endif %}
+    {% for mes in range(1, 13) %}
+        SUM(
+            CASE WHEN EXTRACT(MONTH FROM data_venda) = {{ mes }} 
+            THEN valor END
+        ) AS valor_mes_{{ mes }}
+        {% if not loop.last %},{% endif %}
     {% endfor %}
-from vendas
-group by cliente_id
+FROM vendas
+GROUP BY cliente_id
 
+UNION ALL
 
--- condição com jinja
-
-select * 
-from vendas
-where 
-    {% if flag_ativo == true %}
-        data_venda == current_date - interval '30 days'
+-- Condição com Jinja
+SELECT *
+FROM vendas
+WHERE 
+    {% if var("flag_ativo", true) %}
+        data_venda >= CURRENT_DATE - INTERVAL '30 days'
     {% else %}
-        data_venda is not null
+        data_venda IS NOT NULL
     {% endif %}
-
--- o jinja combina código python com sql para criar consultas dinâmicas
+;

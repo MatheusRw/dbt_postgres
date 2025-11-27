@@ -42,3 +42,8 @@ seeds:
     +schema: seeds
     +materialized: seed
     +tags: ['seeds']
+
+snapshots:
+  dbt_postgres_projeto:
+    +schema: snapshots
+    +tags: ['snapshots']
