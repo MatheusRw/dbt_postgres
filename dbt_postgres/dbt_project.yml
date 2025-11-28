@@ -19,6 +19,13 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
 
+
+vars:
+  ambiente: "desenvolvimento"
+  data_minima: "2023-01-01"
+  schema_nome: "desenvolvimento_schema"
+
+
 # Configurações dos modelos e seeds
 models:
   dbt_postgres_projeto:

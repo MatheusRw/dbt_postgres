@@ -1,0 +1,5 @@
+# packages.yml
+# para rodar esse comando usar o dbt deps
+packages:
+  - package: dbt-labs/dbt_utils
+    version: 1.3.0
